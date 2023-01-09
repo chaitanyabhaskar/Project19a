@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+	<style>
+		table, th, td {
+			border: 2px solid black;
+			border-collapse: collapse;
+			
+		  }
+		button:hover{
+			background-color: #9053c7;
+		}
+		.bts{
+			
+			width: auto;
+			background-color:rgb(142, 142, 238);
+			padding:2.5px;
+			margin-top: 20px;
+			border: 10px;
+			border-radius: 5px;
+		}
+		body{
+			background: #9053c7;
+  background: -webkit-linear-gradient(-135deg, #c850c0, #4158d0);
+  background: -o-linear-gradient(-135deg, #c850c0, #4158d0);
+  background: -moz-linear-gradient(-135deg, #c850c0, #4158d0);
+  background: linear-gradient(-135deg, #c850c0, #4158d0);
+		}
+		.bd1{
+			margin-left:100px;
+			margin-right:100px;
+			margin-top: 20px;
+			border: 40px;
+			border-radius: 30px;
+			position:center;
+			background-color: antiquewhite;
+			padding-left: 30px;
+			padding-right: 30px;
+			padding-top: 20px;
+			padding-bottom: 180px;
+		}
+		
+	</style>
+	<title>Exam Details</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+	<script>
+		function valid(){
+			var v=document.F1.ID.value;
+			var d=document.F1.Dt.value;
+			if(v=="" || d==""){
+				alert("Fill All The Details");
+				return false;
+			}
+			else
+			return true
+		}
+	</script>
+</head>
+<body >
+	
+		<div style="padding:15px;background-color: antiquewhite">
+			
+				{% if user.is_authenticated %}
+				  
+				<h4 style="text-align: left;">Hello, Admin</h4>
+				<nav style="text-align: right;">
+					<a style="text-align: left;" href="/home/adm">Back</a> |
+					<a href="/">Home</a> |
+					<a href="/accounts/logout">Logout</a> |
+					{%else %}
+					<a href="/accounts/login">Login</a>   |
+					<a href="/accounts/register">Register</a>   |
+					{% endif %}
+					<a href="/about">About</a>
+			</nav>
+		</div>
+		<br>
+		{% if user.is_authenticated %}  
+		<div class="bd1" >
+			<h3>Enter Faculty Details:</h3>
+			<form name="F1" method="POST" action="adm4" onsubmit="return valid()">
+				{% csrf_token %}
+				<center>
+				<div style="margin-bottom:10px">
+			<label style="padding-left:20px">1. Enter Faculty Id:</label>
+  			<input style="background:#4158d0;color:white;padding:4px;border-radius:5px;width:120px" type="text" placeholder="Enter Here" name="ID" id="fid"></div>
+		    <div>
+			  <label style="padding-left:20px">2. Enter Date:</label>
+  			<input style="background:#4158d0;color:white;padding:4px;border-radius:5px;" type="date" name="Dt" id="dATE"></div>
+			  <button class="bts" style="margin-left:10px;" name="bt1">
+				submit
+			</button></center>
+		</form><br>
+		<hr><br>
+		<h3>Changes Here:</h3>
+		<form name="f3" action="adm6" method="POST">
+			{% csrf_token %}
+			<input type="hidden" value="{{fid_id}}" type="text" name="cid">
+			
+			<table>
+				
+				<tr><th>Faculty Id</th><th>Date</th><th>Session</th></tr>
+				{% for i in obj %}
+				<input type="hidden" value={{i.date}} type="date" name="dot">
+				<tr><td><input style="background:#4158d0;color:white;padding:4px;" type="text" value="{{fid_id}}" name="did"></td><td>{{i.date}}</td><td style="text-align:center">{{i.sno}}</td></tr>
+				{% endfor %}
+			</table>
+			<button class="bts" style="margin-left:10px;" name="bt1">
+				Apply for the changes
+			</button>
+		</form>
+		*blue box can be editable
+		</div>	
+		
+		{% else %}
+		
+			<h2 style="text-align:center">Not logged in</h2>
+		{% endif %}
+	<script src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+	<script src="{% static 'vendor/bootstrap/js/popper.js' %}"></script>
+	<script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'vendor/select2/select2.min.js' %}"></script>
+	<script src="{% static 'vendor/tilt/tilt.jquery.min.js' %}"></script>
+	<script >
+		$('.js-tilt').tilt({
+			scale: 1.1
+		})
+	</script>
+	<script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

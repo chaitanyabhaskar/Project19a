@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+	<style>
+        @media print{
+            body *{
+                visibility: hidden;
+            }
+            .printvalue,.printvalue *{
+                visibility: visible ;
+            }
+        }
+		table, th, td {
+			border: 2px solid black;
+			border-collapse: collapse;
+			
+		  }
+		button:hover{
+			background-color: #9053c7;
+		}
+		.bts{
+			
+			width: auto;
+			background-color:rgb(142, 142, 238);
+			padding:2.5px;
+			margin-top: 20px;
+			border: 10px;
+			border-radius: 5px;
+		}
+		body{
+			background: #9053c7;
+  background: -webkit-linear-gradient(-135deg, #c850c0, #4158d0);
+  background: -o-linear-gradient(-135deg, #c850c0, #4158d0);
+  background: -moz-linear-gradient(-135deg, #c850c0, #4158d0);
+  background: linear-gradient(-135deg, #c850c0, #4158d0);
+		}
+		.bd1{
+			margin-left:100px;
+			margin-right:100px;
+			margin-top: 20px;
+			border: 40px;
+			border-radius: 30px;
+			position:center;
+			background-color: antiquewhite;
+			padding-left: 30px;
+			padding-right: 30px;
+			padding-top: 20px;
+			padding-bottom: 180px;
+		}
+		
+	</style>
+	<title>Slots Details</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+	<script>
+		function valid(){
+			var v=document.F1.Examid.value;
+			if (v=="none"){
+				alert("please select any Exam id");
+				return false;
+			}
+			else
+			return true
+		}
+	</script>
+</head>
+<body >
+	
+		<div style="padding:15px;background-color: antiquewhite">
+			
+				{% if user.is_authenticated %}
+				  
+				<h4 style="text-align: left;">Hello, Admin</h4>
+	
+				<nav style="text-align: right;">
+					<a style="text-align: left;" href="/home/adm">Back</a> |
+					<a href="/">Home</a> |
+					<a href="/accounts/logout">Logout</a> |
+					{%else %}
+					<a href="/accounts/login">Login</a>   |
+					<a href="/accounts/register">Register</a>   |
+					{% endif %}
+					<a href="/about">About</a>
+			</nav>
+		</div>
+		<br>
+		{% if user.is_authenticated %}  
+		<div class="bd1" >
+			<form name="F1" method="POST" action="adm3" onsubmit="return valid()">
+				{% csrf_token %}
+			<label style="padding-left:20px" >* Choose a Exam:</label>
+  			<select name="Examid" id="eid">
+			<option value="none" selected disabled hidden>Select an Option</option>
+			{% for i in lst%}
+   			<option value='{{i}}' >{{i}}</option>
+			{%endfor %}
+  			</select>
+			  <button class="bts" style="margin-left:10px" name="bt1">
+				submit
+			</button>
+		</form>
+		<p style="margin-left:20px"> Exams with examId: <b>{{eid}}</b>, starts from <b>{{date}}</b></p>
+		<br>
+	<p style="margin-left:20px">*All duties will be shown here for the seleted exam:</p>
+    <div class="printvalue">
+	<table style="margin:auto" width="90%" height="auto">
+		<tr><th>Date</th><th>ExamId</th><th>InvigilatorId</th><th>RoomNo</th><th>Session</th></tr>
+		{%for i in obj%}
+			<tr><td align="center">{{i.date}}</td><td align="center">{{i.Eid_id}}</td><td align="center">{{i.fid_id}}</td><td align="center">{{i.rno}}</td><td align="center">{{i.sno}}</td></tr>
+		{%endfor%}
+	</table>
+    </div>
+    <center>
+    <button class="bts" onclick="window.print();">
+        Print
+    </button></center>
+		</div>	
+		
+		{% else %}
+		
+			<h2 style="text-align:center">Not logged in</h2>
+		{% endif %}
+	<script src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+	<script src="{% static 'vendor/bootstrap/js/popper.js' %}"></script>
+	<script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'vendor/select2/select2.min.js' %}"></script>
+	<script src="{% static 'vendor/tilt/tilt.jquery.min.js' %}"></script>
+	<script >
+		$('.js-tilt').tilt({
+			scale: 1.1
+		})
+	</script>
+	<script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

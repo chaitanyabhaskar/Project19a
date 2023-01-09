@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+	<style>
+		.bts{
+			width: auto;
+			background-color:rgb(142, 142, 238);
+			padding: 5px 10px 5px 10px;
+			margin-top: 20px;
+			border: 10px;
+			border-radius: 5px;
+		}
+		button:hover{
+			background-color: grey;
+		}
+		body{
+			background: #9053c7;
+  background: -webkit-linear-gradient(-135deg, #c850c0, #4158d0);
+  background: -o-linear-gradient(-135deg, #c850c0, #4158d0);
+  background: -moz-linear-gradient(-135deg, #c850c0, #4158d0);
+  background: linear-gradient(-135deg, #c850c0, #4158d0);
+		}
+		.bd1{
+			margin:auto;
+			border: 40px;
+			border-radius: 30px;
+			margin-bottom: auto;
+		}
+		
+	</style>
+	<title>Admin Home</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+	<script>
+		function validating(){
+			var days=document.F1.days.value
+			var Eid=document.F1.Eid.value;
+			var date=document.F1.date.value;
+			if(days==0){
+				alert("Days cant be zero")
+				return false
+			}
+			if(!Eid||!date){
+				alert("Fill all the details!!!");
+				return false;
+			}
+			else
+			return true;
+		}
+	</script>
+</head>
+<body  >
+	
+		<div style="padding:15px;background-color: rgb(248, 234, 215)">
+			
+				{% if user.is_authenticated %}  
+				<h4 style="text-align: left;">Hello, Admin</h4>
+				<nav style="text-align: right;">
+					<a href="/">Home</a> |
+					<a href="adm4">Change Duties</a>  |
+					<a href="adm3">View/Generate List</a> |
+					<a href="/accounts/logout">Logout</a> |
+					{%else %}
+					<a href="/accounts/login">Login</a>   |
+					<a href="/accounts/register">Register</a>   |
+					{% endif %}
+					<a href="/about">About</a>
+			</nav>
+		</div>
+		<br>
+		{% if user.is_authenticated %}  
+		<div class="bd1" style="width:90%;padding:20px;background-color: antiquewhite;">
+			<fieldset>
+				<legend>Exam Details:</legend>
+				<p style="margin-left:10px">Note:{% for i in messages %}
+					<h5 style="color:rgb(82, 3, 3);padding-left:20px;"> *{{i}}</h5>
+					{% endfor %}</p>
+			<form method="POST" action="adm2" name="F1" onsubmit="return validating()">
+				{% csrf_token %}
+					<div style="padding:20px;">
+				<label for="d1">1. Enter no of days to be held for Examination:</label>
+					<input style="padding:5px;border-radius:2.5px;border:10px " type="number" placeholder="Enter a number" id='d1' name="days"/>
+					<br><br>
+					<label for="eid1">2. Enter Exam ID:</label> <input style="padding:5px;border-radius:2.5px;border:10px;" type="text" placeholder="Enter Id" id="eid1" name="Eid">
+					<br><br>
+					<label for='dt1'>3. Enter Date:</label> <input style="padding:5px;border-radius:2.5px;border:10px " type="date" id="dt1" name="date">
+					<br>
+						<button class="bts" style="border:10px">
+							submit
+						</button>
+					</div>
+					</center>	
+				
+			</form></fieldset>
+		</div>
+		{% else %}
+		
+			<h2>Not logged in</h2>
+		{% endif %}
+	<script src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+	<script src="{% static 'vendor/bootstrap/js/popper.js' %}"></script>
+	<script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'vendor/select2/select2.min.js' %}"></script>
+	<script src="{% static 'vendor/tilt/tilt.jquery.min.js' %}"></script>
+	<script >
+		$('.js-tilt').tilt({
+			scale: 1.1
+		})
+	</script>
+	<script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

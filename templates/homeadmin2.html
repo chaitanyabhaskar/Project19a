@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+	<style>
+		.bts{
+			width: auto;
+			background-color:rgb(142, 142, 238);
+			padding: 5px 10px 5px 10px;
+			margin-top: 20px;
+			border: 10px;
+			border-radius: 5px;
+		}
+		button:hover{
+			background-color: grey;
+		}
+		body{
+			background: #9053c7;
+  background: -webkit-linear-gradient(-135deg, #c850c0, #4158d0);
+  background: -o-linear-gradient(-135deg, #c850c0, #4158d0);
+  background: -moz-linear-gradient(-135deg, #c850c0, #4158d0);
+  background: linear-gradient(-135deg, #c850c0, #4158d0);
+		}
+		.bd1{
+			margin:auto;
+			border: 40px;
+			border-radius: 30px;
+		}
+		
+	</style>
+	<title>Step 2</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+	<script>
+		function validateDate(n){
+			console.log(n)
+			for(var i=0;i<n;i++){
+				var ID= "day"+(i+1);
+				var date=document.getElementById(ID).value;
+				if(Boolean(date)){
+					continue;
+				}
+				else{
+					alert("Date Field Cant be Empty!!");
+					return false;
+				}
+				return true;
+			}
+		}
+		function preventBack() 
+   {
+   window.history.forward();
+
+   }
+setTimeout("preventBack()", 0);
+window.onunload = function () { null };
+	</script>
+</head>
+<body style="text-align:center" >
+	<marquee >
+		NOTE: Please enter strength of students in the session box!!!
+</marquee>
+		<div style="padding:15px;background-color: antiquewhite">
+			
+				{% if user.is_authenticated %}  
+				<h4 style="text-align: left;">Hello, Admin</h4>
+				<nav style="text-align: right;">
+					<a style="text-align: left;" href="/home/adm">Back</a> |
+					<a href="/">Home</a> |
+					<a href="/accounts/logout">Logout</a> |
+					{%else %}
+					<a href="/accounts/login">Login</a>   |
+					<a href="/accounts/register">Register</a>   |
+					{% endif %}
+					<a href="/about">About</a>
+			</nav>
+		</div>
+		<br>
+		{% if user.is_authenticated %}  
+		<div class="bd1" style="margin:auto;padding:20px;background-color: antiquewhite">
+			{% for i in messages %}
+					<h5 style="color:rgb(82, 3, 3);">*{{i}}</h5>
+					{% endfor %}
+					<h1>{{dt}}</h1>
+			<form name="f1" method="POST" action="/results" onsubmit="return validateDate({{le}})" )>
+				{% csrf_token %}
+				<p></p>
+			{% for i in lst %}
+			<h3><pre>Day {{i}}:                Date:<input type="date" id="day{{i}}" name="day{{i}}"></h3></pre>
+			<pre>session 1:               session 2:</pre>
+				<input style="padding:5px;border-radius:2.5px;" type="number" placeholder="Enter a number"name='session1Day{{i}}'/>
+				<input style="padding:5px;border-radius:2.5px;" type="number" placeholder="Enter a number"name="session2Day{{i}}"/>
+				<p></p>
+			{% endfor %}
+				
+				<input type="hidden" value={{le}} type="data" name="Days">
+				<input type="hidden" value={{eid}} type="text" name="eid">
+				<input type="hidden" value={{dt}} type="text" name="dt">
+			<div>
+				<button class="bts" >
+					submit
+				</button>
+			</div>
+			
+		</form>
+		</div>
+		{% else %}
+		
+			<h2>Not logged in</h2>
+		{% endif %}
+	<script src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+	<script src="{% static 'vendor/bootstrap/js/popper.js' %}"></script>
+	<script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'vendor/select2/select2.min.js' %}"></script>
+	<script src="{% static 'vendor/tilt/tilt.jquery.min.js' %}"></script>
+	<script >
+		$('.js-tilt').tilt({
+			scale: 1.1
+		})
+	</script>
+	<script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

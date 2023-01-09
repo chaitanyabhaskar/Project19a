@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results</title>
+</head>
+<body>
+    <script>
+        function preventBack() 
+        {
+        window.history.forward();
+
+        }
+        setTimeout("preventBack()", 0);
+        window.onunload = function () { null };
+        setTimeout(function(){
+            window.location.href = '/';
+        }, 6000);
+        var timeleft = 5;
+        var downloadTimer = setInterval(function(){
+        if(timeleft <= 0){
+        clearInterval(downloadTimer);
+        document.getElementById("countdown").innerHTML = "Finished";
+        } else {
+        document.getElementById("countdown").innerHTML = "Redirecting to the login page in "+timeleft + " seconds";
+        }
+        timeleft -= 1;
+        }, 1000);
+    </script>
+    <h1 style="font-family:Arial Helvetica, sans-serif;color:rgb(255, 0, 0)">Cannot allot the duties, Because Not Enough Rooms for the allocation of slots value:{{l}}</h1>
+    <div id="countdown"></div>
+    close the tab.
+    
+</body>
+</html>
